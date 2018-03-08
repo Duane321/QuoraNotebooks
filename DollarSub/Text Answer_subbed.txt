@@ -1,0 +1,119 @@
+### It tells us the effective number of parameters for a certain class of models.
+
+which is *extremely* useful. If two models explain the data equally well, then you'd prefer the simplier one, right? What if one is *much* simplier but explains the data only slightly less well? However you weigh these two, the tradeoff is hugely important. The trace allows us to quantify complexity and place it on one side of the scale.
+
+### So what's that class of model?
+
+It's any linear operator model. That is, any model for which the fitting procedure can be represented as:
+
+[math]\begin{align}
+\hat{\mathbf{y}} = \mathbf{S}\mathbf{y}
+\end{align}[/math]
+
+There are a some familiar models of this form:
+
+1. In OLS regression with a design matrix [math]\mathbf{X}[/math]:
+
+[math]\begin{align}
+\mathbf{S} = \mathbf{X}\big(\mathbf{X}^T\mathbf{X}\big)^{-1}\mathbf{X}^T
+\end{align}[/math]
+
+2. In ridge regression:
+
+[math]\begin{align}
+\mathbf{S} = \mathbf{X}\big(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I}\big)^{-1}\mathbf{X}^T
+\end{align}[/math]
+
+Where [math]\lambda[/math] determines our tradeoff between fitness and complexity.
+
+3. Curve fitting with a natural cubic spline can be represented as:
+
+[math]\begin{align}
+\hat{\mathbf{y}} = \mathbf{S}_\lambda\mathbf{y}
+\end{align}[/math]
+
+where [math]\mathbf{S}_\lambda[/math] is called the smoothing matrix.
+
+### How do you measure complexity?
+
+Ignoring the specific examples above, how would you think about complexity in this general case? What if I gave you two 'models' represented as [math]\mathbf{S}^{(A)}[/math] and [math]\mathbf{S}^{(B)}[/math]. What experiments would you run on them to determine which is more complex?
+
+Well, vaguely, a complex model can fit a wider range of patterns than a simple one. In other words, if I gave a complex model some [math]\mathbf{y}[/math], it'll be better able to reproduce it than a simple one. Let's use this as a our working definition.
+
+So let's experiment. I've invented a [math]\mathbf{y}[/math]-generating function like this:
+
+[math]\begin{align}
+y_i = g(\mathbf{x}_i) + \epsilon_i
+\end{align}[/math]
+
+where [math]g(\cdot)[/math] is our 'true' function that I'm not telling you, [math]\mathbf{x}_i[/math] are our observations (that are baked into our models already) and [math]\epsilon_i[/math] is some mean-zero noise with standard deviation [math]\sigma_\epsilon[/math]. So we'll generated many [math]\mathbf{y}[/math]'s from this, delivered them to our two models and observe the outgoing streams. So.. what's the first thing we might check? Well one idea is to look at one element of [math]\mathbf{y}[/math] - specifically, the scatter plot of inputs-outputs for that element.
+
+If there's anything to notice, it's that one model seems to be more *sensitive* to inputs. That sensitivity *is* exactly what it means to be more complex. A very 'sensitive-to-inputs' model is a model that reproduces it's inputs closely.
+
+The idea is to measure that sensitivity with the slope of the best fit line.F1 So call that [math]\beta_i[/math]. It would look like this:
+
+
+Now on a per-element basis, we have a measure of complexity. But how would we combine these into a measure for the full model? Suppose both models yield the same input-output [math]\beta_i[/math]'s, but the first model only applies to [math]\mathbf{y}[/math] vectors of length 10, whereas the second works for vectors of length 1,000? It's reasonable to say the second is 100x more complicated, yes? So let's make the model complexity the sum of these [math]\beta_i[/math]'s:
+
+[math]\begin{align}
+\textrm{Complexity}(\mathbf{S}) = \sum_i \beta_i
+\end{align}[/math]
+
+Great, now we have a measure of model complexity. Unfortunately, it comes from the unrealistic world where I can sample [math]\mathbf{y}[/math]'s repeatedly..
+
+### How do you *actually* measure complexity?
+
+Complexity is a function of the model, so we have should be able to estimate it from [math]\mathbf{S}[/math]. Fortunately, we can write:
+
+[math]\begin{align}
+\beta_i = \frac{\textrm{cov}(\hat{y}_i,y_i)}{\textrm{var}(y_i)}
+\end{align}[/math]
+
+[math]\hat{y}_i[/math] is just a linear combination of [math]\mathbf{y}[/math], so:
+
+[math]\begin{align}
+\begin{align}
+\frac{\textrm{cov}(\hat{y}_i,y_i)}{\textrm{var}(y_i)} & = \frac{\textrm{cov}(s_{i1}y_1+s_{i2}y_2+\cdots+s_{iN}y_N,y_i)}{\textrm{var}(y_i)} \\ & = \frac{s_{ii}\textrm{cov}(y_i,y_i)}{\textrm{var}(y_i)} \\ & = s_{ii}
+\end{align}
+\end{align}[/math]
+
+So for the full model:
+
+[math]\begin{align}
+\textrm{Complexity}(\mathbf{S}) = \sum_i s_{ii} = \textrm{Trace}(\mathbf{S})
+\end{align}[/math]
+
+And there we have it! The trace of our linear model is the complexity. This should make sense. It measures how much a model uses [math]y_i[/math] in it's recreation with [math]\hat{y}_i[/math].
+
+So in the case of our two models:
+
+[math]\begin{align}
+\textrm{Trace}(\mathbf{S}^{(A)}) = 5\\
+\textrm{Trace}(\mathbf{S}^{(B)}) = 23 
+\end{align}[/math]
+
+We can see this more directly if we look at their fits (for a randomly selected [math]\mathbf{y}[/math]:
+
+### Place it on the scale
+
+In general, we fit models by minimizing something like:
+
+[math]\begin{align}
+\textrm{(fit to the data)} + \lambda\textrm{(model complexity)} 
+\end{align}[/math]
+
+where [math]\lambda[/math] is some fitness-complexity trade off parameter. So we might choose the [math]\mathbf{S}[/math] that minimizes:
+
+[math]\begin{align}
+(\mathbf{y} - \mathbf{S}\mathbf{y})^T(\mathbf{y} - \mathbf{S}\mathbf{y}) + \lambda\textrm{Trace}(\mathbf{S}) 
+\end{align}[/math]
+
+This isn't typically how such objectives are written, but that's because if we know something specific about [math]\mathbf{S}[/math], we can simplify that Trace expression. (If you'd like to see for yourself, try the case for linear regression and use SVD on [math]\mathbf{S}[/math].
+
+### Does this tell us anything else?
+
+One extra thing I notice is.. the Trace([math]\cdot[/math]) operator ignores most of the given matrix, so there's a lot that incur no complexity penality. That is to say, if you can figure out how to model [math]y_i[/math] with anything other than [math]y_i[/math] itself, you can do so without worrying about complexity.
+
+-----------------------
+
+If you'd like to know about this stuff, check out the Elements of Statistical Learning. That's where I learned about the Trace as a measure of complexity.

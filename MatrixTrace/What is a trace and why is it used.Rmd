@@ -1,0 +1,140 @@
+---
+title: "What is a trace and why is it useful?"
+author: "Duane Rich"
+date: "February 11, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Before we answer the question, we need to set some variables
+
+```{r}
+library(ggplot2)
+
+remove_back <- function(g){
+  g + theme_bw() + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"))
+}
+
+n <- 100
+x <- seq(1,n)/100
+slope <- 3 #Slope of average line
+freq <- 2
+y_true <- x*slope + sin(x*2*pi*freq)
+noise_std <- 1
+y <- y_true + rnorm(n,0,noise_std)
+df1 <- 5
+df2 <- 15
+
+smooth.matrix <-  function(x, df){
+  n = length(x);
+  A = matrix(0, n, n);
+  for(i in 1:n){
+    y = rep(0, n); y[i]=1;
+    yi = smooth.spline(x, y, df=df)$y;
+    A[,i]= yi;
+    }
+  (A+t(A))/2;
+}
+```
+
+Set up both splines
+
+```{r}
+spline1 = smooth.spline(x,y,df=df1)
+s_mat1 <- smooth.matrix(x,df1)
+spline2 = smooth.spline(x,y,df=df2)
+s_mat2 <- smooth.matrix(x,df2)
+
+dat1 <- data.frame(x=x,y=y,yhat=spline1$y)
+dat2 <- data.frame(x=x,y=y,yhat=spline2$y)
+```
+
+Structure:
+
+Which one is better?
+
+```{r}
+
+make_spl_graph <- function(dat){
+  g <- ggplot(dat,aes(x=x,y=y)) + geom_point(color='red',alpha=.3,size=1.5)
+  g <- g + geom_line(aes(x, dat$yhat),color='blue',size=1.5,alpha=.4)
+  g <- remove_back(g)
+  g
+}
+
+make_spl_graph(dat1)
+
+make_spl_graph(dat2)
+
+```
+
+
+Seriously. There's a correct answer here. Can you eye-ball and tell me which is best?
+
+Maybe not, but a trace of a matrix could help us. Let me explain.
+
+To answer the question of which is *best*, we need to define two things: the squiggle and what it means to be 'best'.
+
+The squiggle:
+
+The most general way we could represent a squiggle is as a function $f(\cdot)$. You give it any $x$ between 0 and 1 and it'll give you a $y$. Easy enough.
+
+'Best':
+
+Typically when faced with a problem like this, we assume the data is generated from some *true* function (call it $g(\cdot)$) plus some noise. That is:
+
+$$
+y_i = g(x_i) + \epsilon_i
+$$
+where $\{x_i\}$ and $\{y_i\}$ make up our observations and $\{\epsilon_i\}$. Let's say a good $f(\cdot)$ is one that would approximate $g(\cdot)$ well.
+
+So what?
+
+OK, how would we ever figure that out? We can't see $g(\cdot)$ - only those junky, noised-up $\{y_i\}$!. Unfortunately, in general, there isn't a single solution to this problem, but we can do pretty well.
+
+Let's ask a slightly different question. What makes for a good squiggle? In other words, if I handed you two of them, how would decide which is best?
+
+First, you definitely want it to fit the data. So let's represent that fit with the typical sum of squares:
+
+$$
+\sum_i (f(x_i) - y_i)^2
+$$
+Larger numbers are bad. So, is that all? What if I gave you two functions that yield the same number for this? Then what? Well you might say pick the 'smoother' one. It's akin to Occam's Razor - pick the simpler function that does the same job. So if you remember calc, we can measure average (squared) smoothness of this function as
+
+$$
+\int_0^1 f''(t)^2 dt
+$$
+
+Ok, but how do weigh these two? Well I don't know, so let's leave that as a free parameter (call it $\lambda$) and add them together. So our criteria for a good function is one that yields a lower number of:
+
+$$
+\textrm{loss}(f(\cdot),\lambda) = \sum_i (f(x_i) - y_i)^2 + \lambda \int_0^1 f''(t)^2 dt
+$$
+That is, if I have a set preference for the fitness-smoothness tradeoff, then if you give me any two squiggles, I can tell you which is best!
+
+Great, now check every possible squiggle and pick your favorite!
+
+Fortunately for us, mathematicians have provided some mindblowing answers that avoid that cumbersome approach. The crazy thing is.. it's identical to having taken that approach.
+
+
+Those handy mathematicians discovered there is a unique, global optimum. It's called a natural cubic spline, but let's call it $s_\lambda(\cdot)$. That is
+
+$$
+s_\lambda(\cdot) = \textrm{argmin}_{f(\cdot)} \textrm{loss}(f(\cdot),\lambda)
+$$
+Now, here's the absolutely mind-blowing part. There exists a matrix $\mathbf{S}_\lambda$ that only depends on our $x_i$'s and our $\lambda$ such that:
+
+$$
+s_\lambda(\mathbf{x}) = \mathbf{S}_\lambda\mathbf{y}
+$$
+
+where $\mathbf{x}$ is just a vector of our $x_i$'s (similarily for $\mathbf{y}$).
+
+Think about why that's crazy. If know just the inputs ($x_i$'s) and I have my fitness-smoothness tradeoff set, then the moment you hand me $y_i$'s, I'm one matrix multiplication away from knowing the global optimizer of $\textrm{loss}(f(\cdot),\lambda)$.
+
+
+

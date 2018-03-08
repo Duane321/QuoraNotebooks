@@ -1,0 +1,13 @@
+This is a sample Document. We need to [math]make[/math] some substitutions here.
+
+[math]\begin{align}
+LIKE THIS
+\end{align}[/math]
+
+Trying
+
+here do this now: [math]\begin{align} Whats going on here \end{align}[/math]
+
+more stuff [math]what the hell now[/math]
+
+yes

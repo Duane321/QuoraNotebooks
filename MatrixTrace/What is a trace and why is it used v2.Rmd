@@ -1,0 +1,79 @@
+---
+title: "What is a trace and why is it used?"
+author: "Duane Rich"
+date: "February 12, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# It tells us the effective number of parameters for a general class of models.
+
+This is *extremely* useful. If two models explain the data equally well, you'd prefer the simplier one, right? What if one is *much* simplier but explains the data only slightly less well? This tradeoff is hugely important. The trace allows us to quantify complexity and place it on one side of the scale.
+
+# So what's that general class of model?
+
+Any model for which the fitting procedure can be represented as:
+
+$$
+\hat{\mathbf{y}} = \mathbf{S}\mathbf{y}
+$$
+
+That's pretty damn general. Just to give you a taste:
+
+1. In OLS regression with a design matrix $\mathbf{X}$:
+
+$$
+\mathbf{S} = \mathbf{X}\big(\mathbf{X}^T\mathbf{X}\big)^{-1}\mathbf{X}^T
+$$
+
+
+2. In ridge regression:
+
+$$
+\mathbf{S} = \mathbf{X}\big(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I}\big)^{-1}\mathbf{X}^T
+$$
+Where $\lambda$ determines our tradeoff between fitness and complexity.
+
+
+3. Curve fitting with a natural cubic spline can be represented as:
+
+$$
+\hat{\mathbf{y}} = \mathbf{S}_\lambda\mathbf{y}
+$$
+where $\mathbf{S}_\lambda$ is smoothing matrix.
+
+# How do you measure complexity?
+
+Ignoring the specific examples above, how would you think about complexity in this general case? If I gave you two 'models' represented as $\mathbf{S}^{(1)}$ and $\mathbf{S}^{(2)}$, how would you tell me which is more 'complex'? I actually have two such models, so what questions would you ask?
+
+Since we are trying to evaluate these $\mathbf{S}$'s, we shouldn't consider their action on just one $\mathbf{y}$ vector, but many such vectors, since we care about behavior over all such events. (This is completely unrealistic to have it reality) I'll index these different events with a $j$. Also, it'll be helpful to think about the $i$-th element of $\mathbf{y}$ in the classic form of true-function + noise:
+
+$$
+y_{i,j} = g(\mathbf{x}_i) + \epsilon_{i,j} 
+$$
+where $\mathbf{x}$ are our observations (that'll ultimately get baked into $\mathbf{S}$) and is some mean zero noise with variance $\sigma^2$.
+
+Now imagine you see a stream of these incoming $\mathbf{y}_j$'s. You apply $\mathbf{S}^{(1)}$ and $\mathbf{S}^{(2)}$ and get two streams of outgoing vectors $\mathbf{y}^{(1)}_j$ and $\mathbf{y}^{(2)}_j$. This is  plenty of data. So what would you like to see?
+
+One starting point would be to look at one $y_i$ over the whole stream and see what comes out the other end. If the other end closely matches what went in, it's evidence that that model can fit a wide range of patterns - it must be more complex.
+
+[Show scatter plots]
+
+It's clear one model has a better ability to track a given $y_i$ than the other. How might we quantify this? Well since this graph seems like it's begging for a regression, how about we use the coefficient? A high number would indicate the output is very sensitive to the input and a low number would indicate it ignores it (or does the opposite). So that number is:
+
+$$
+\begin{aligned}
+\beta & = \frac{\textrm{cov}(\hat{y}_i^{(A)},y_i)}{\textrm{var}(y_i)} = \frac{\textrm{cov}(\hat{y}_i^{(A)},y_i)}{\sigma^2}
+\end{aligned}
+$$
+
+Is that all? What if we consider different sized $\mathbf{y}$ vectors? Suppose both models yield the same input-output covariance, but the first model only applies to $\mathbf{y}$ vectors of length 10, whereas the second works for vectors of length 1,000? It's reasonable to say the second is 100x more complicated, yes? So maybe this is a good definition:
+
+$$
+\textrm{Complexity}(\mathbf{S}) = \sum_i \frac{\textrm{cov}(\hat{y}_i^{(A)},y_i)}{\sigma^2}
+\end{aligned}
+$$
+Ok, but what is the variance of a 

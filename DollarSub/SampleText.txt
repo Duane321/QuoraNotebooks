@@ -1,0 +1,13 @@
+This is a sample Document. We need to $make$ some substitutions here.
+
+$$
+LIKE THIS
+$$
+
+Trying
+
+here do this now: $$ Whats going on here $$
+
+more stuff $what the hell now$
+
+yes

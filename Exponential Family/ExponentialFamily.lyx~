@@ -1,0 +1,128 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1cm
+\topmargin 2cm
+\rightmargin 1cm
+\bottommargin 2cm
+\headheight 0cm
+\headsep 0cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+What is the Exponential Family? (Quora)
+\end_layout
+
+\begin_layout Standard
+I'll give a different perspective on the exponential family.
+ If you visit the wiki page, you'll read its definition and its wonderfully
+ general properties.
+ That's all well and good, but it doesn't well represent how it's useful
+ to a data scientist.
+ I'll try to do that here.
+ I'll avoid some typical extensions, because they distract from a good starting
+ point.
+ I'll start with a real simple problem, how the exponential family helps
+ in that circumstance and how it can, in fact, help in more broader circumstance
+s.
+ After all this, you should be able to put this knowledge in your pocket
+ and actually use the exponential family in all it's general glory.
+ Now..
+\end_layout
+
+\begin_layout Standard
+[Insert Vegeta picture with the let us begin caption]
+\end_layout
+
+\begin_layout Standard
+Let's say my data is a vector of real values scalars 
+\begin_inset Formula $\{x_{i}\}_{i=1}^{N}$
+\end_inset
+
+ and I *suspect* it's normally distributed.
+ My goal is to determine *which* normal distribution it comes from.
+ If you know how to approach this, forget your approach!
+\end_layout
+
+\begin_layout Standard
+Let's define it.
+ We seek to define some probability distribution over a vector of observations.
+ We do that with this magical device:
+\begin_inset Formula 
+\[
+p(\mathbf{x}|\boldsymbol{\theta})=\frac{1}{Z(\boldsymbol{\theta})}h(\mathbf{x})e^{T(\mathbf{x})\cdot\boldsymbol{\theta}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
