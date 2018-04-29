@@ -121,35 +121,6 @@
 \end_inset
 
 
-\begin_inset Formula 
-\begin{eqnarray*}
-\mathbf{L}_{t} & = & \left[\begin{array}{ccccc}
-\left[\begin{array}{c}
-\\
-\mathbf{r}_{t}\\
-\\
-\end{array}\right] & \left[\begin{array}{c}
-\\
-\mathbf{r}_{t-w}\\
-\\
-\end{array}\right] & \left[\begin{array}{c}
-\\
-\\
-\\
-\end{array}\right] & \left[\begin{array}{c}
-\\
-\\
-\\
-\end{array}\right] & \left[\begin{array}{c}
-\\
-\\
-\\
-\end{array}\right]\end{array}\right]\\
-\end{eqnarray*}
-
-\end_inset
-
-
 \end_layout
 
 \end_body
