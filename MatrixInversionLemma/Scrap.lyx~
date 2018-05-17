@@ -85,9 +85,20 @@
 
 
 \begin_inset Formula 
+\[
+\boldsymbol{\delta}_{t}=\mathbf{r}_{t}-\mathbf{r}_{t-w}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
 \begin{eqnarray*}
-\mathbf{C}_{t+1} & = & \mathbf{C}_{t}+\frac{1}{N}(\mathbf{r}_{t}\mathbf{r}_{t}^{T})-\frac{1}{N}(\mathbf{r}_{t-w}\mathbf{r}_{t-w}^{T})\\
- & = & \mathbf{C}_{t}+\mathbf{L}_{t}\mathbf{N}^{-1}\mathbf{L}_{t}^{T}
+\mathbf{C}_{t+1} & = & \mathbf{C}_{t}+\frac{1}{w}\mathbf{r}_{t}\mathbf{r}_{t}^{T}-\frac{1}{w}\mathbf{r}_{t-w}\mathbf{r}{}_{t-w}{}^{T}-\frac{1}{w}\mathbb{E}[\mathbf{r}_{t}]\boldsymbol{\delta}_{t}^{T}-\frac{1}{w}\boldsymbol{\delta}_{t}\mathbb{E}[\mathbf{r}_{t}]^{T}-\frac{1}{w^{2}}\boldsymbol{\delta}_{t}\boldsymbol{\delta}_{t}^{T}\\
+ & = & \mathbf{C}_{t}+\mathbf{L}_{t}\mathbf{W}^{-1}\mathbf{R}_{t}^{T}
 \end{eqnarray*}
 
 \end_inset
@@ -95,8 +106,45 @@
 
 \begin_inset Formula 
 \begin{eqnarray*}
-\mathbf{C}_{t+1}^{-1} & = & \big(\mathbf{C}_{t}+\mathbf{L}_{t}\mathbf{N}^{-1}\mathbf{L}_{t}^{T}\big)^{-1}\\
- & = & \mathbf{C}_{t}^{-1}-\mathbf{C}_{t}^{-1}\mathbf{L}_{t}\big(\mathbf{N}+\mathbf{L}_{t}^{T}\mathbf{C}_{t}^{-1}\mathbf{L}_{t}\big)^{-1}\mathbf{L}_{t}^{T}\mathbf{C}_{t}^{-1}
+\mathbf{C}_{t+1}^{-1} & = & \big(\mathbf{C}_{t}+\mathbf{L}_{t}\mathbf{W}^{-1}\mathbf{R}_{t}^{T}\big)^{-1}\\
+ & = & \mathbf{C}_{t}^{-1}-\mathbf{C}_{t}^{-1}\mathbf{L}_{t}\big(\mathbf{W}+\mathbf{R}_{t}^{T}\mathbf{C}_{t}^{-1}\mathbf{L}_{t}\big)^{-1}\mathbf{R}_{t}^{T}\mathbf{C}_{t}^{-1}
+\end{eqnarray*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathbf{h}_{t+1} & = & \mathbf{C}_{t+1}^{-1}\mathbb{E}[\mathbf{r}_{t+1}]\\
+\end{eqnarray*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{eqnarray*}
+\mathbf{L}_{t} & = & \left[\begin{array}{ccccc}
+\left[\begin{array}{c}
+\\
+\mathbf{r}_{t}\\
+\\
+\end{array}\right] & \left[\begin{array}{c}
+\\
+\mathbf{r}_{t-w}\\
+\\
+\end{array}\right] & \left[\begin{array}{c}
+\\
+\\
+\\
+\end{array}\right] & \left[\begin{array}{c}
+\\
+\\
+\\
+\end{array}\right] & \left[\begin{array}{c}
+\\
+\\
+\\
+\end{array}\right]\end{array}\right]\\
 \end{eqnarray*}
 
 \end_inset
