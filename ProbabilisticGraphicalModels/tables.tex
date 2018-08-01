@@ -1,0 +1,93 @@
+\documentclass{article}
+\usepackage[table]{xcolor}
+\usepackage{xcolor}
+\usepackage{booktabs}
+
+\usepackage{array}
+
+\makeatletter
+\newcommand{\thickhline}{%
+    \noalign {\ifnum 0=`}\fi \hrule height 1pt
+    \futurelet \reserved@a \@xhline
+}
+\newcolumntype{"}{@{\hskip\tabcolsep\vrule width 1pt\hskip\tabcolsep}}
+\makeatother
+
+\begin{document}
+
+\begin{tabular}{|c|c"c|}
+	\hline
+	$S$ & $I$ & $\phi_5(S,I)$ \\
+	\thickhline
+	$s^0$ & $i^0$ & $\phi_5(s^0,i^0) = 0.95 $ \\
+	\hline
+	$s^0$ & $i^1$ & $\phi_5(s^0,i^1) = 0.2 $ \\
+	\hline
+	$s^1$ & $i^0$ & $\phi_5(s^1,i^0) = 0.05 $ \\
+	\hline
+	$s^1$ & $i^1$ & $\phi_5(s^1,i^1) = 0.8 $ \\
+	\hline
+\end{tabular}
+
+$$
+\tilde{P}(C,D,I,G,S)
+$$
+
+\begin{tabular}{|c|c|c|c|c"c|}
+	\hline
+	$C$ & $D$ & $I$ & $G$ & $S$ & $\tilde{P}(C,D,I,G,S)$ \\
+	\thickhline
+	$c^0$ & $d^0$ & $i^0$ & $g^0$ & $s^0$ & $\phi_1(c^0)\phi_2(c^0,d^0) \phi_3(i^0) \phi_4(g^0,i^0,d^0) \phi_5(s^0,i^0)$ \\
+	\hline
+	$c^0$ & $d^0$ & $i^0$ & $g^0$ & $s^1$ & $\phi_1(c^0)\phi_2(c^0,d^0) \phi_3(i^0) \phi_4(g^0,i^0,d^0) \phi_5(s^1,i^0) $ \\
+	\hline
+	$c^0$ & $d^0$ & $i^0$ & $g^1$ & $s^0$ & $\phi_1(c^0)\phi_2(c^0,d^0) \phi_3(i^0) \phi_4(g^1,i^0,d^0) \phi_5(s^0,i^0) $ \\
+	\hline
+	$c^0$ & $d^0$ & $i^0$ & $g^1$ & $s^1$ & $\phi_1(c^0)\phi_2(c^0,d^0) \phi_3(i^0) \phi_4(g^1,i^0,d^0) \phi_5(s^1,i^0) $ \\
+	\hline
+	$\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ & $\vdots$ \\
+	\hline
+\end{tabular}
+
+$$
+$$
+
+\begin{tabular}{|c|c|c|c|c"c|}
+	\hline
+	$C$ & $D$ & $I$ & $G$ & $S$ & $\tilde{P}(C,D,I,G,S)$ \\
+	\thickhline
+\cellcolor{gray!25}$c^1$ & $d^0$ & $i^0$ & $g^0$ & $s^0$ & $\phi_1(c^1)\phi_2(c^1,d^0)\phi_3(i^0)\phi_4(g^0,i^0,d^0)\phi_5(s^0,i^0) $ \\
+\hline
+\cellcolor{gray!25}$c^1$ & $d^0$ & $i^0$ & $g^0$ & $s^1$ & $\phi_1(c^1)\phi_2(c^1,d^0)\phi_3(i^0)\phi_4(g^0,i^0,d^0)\phi_5(s^1,i^0) $ \\
+\hline
+\cellcolor{gray!25}$c^1$ & $d^0$ & $i^0$ & $g^1$ & $s^0$ & $\phi_1(c^1)\phi_2(c^1,d^0)\phi_3(i^0)\phi_4(g^1,i^0,d^0)\phi_5(s^0,i^0) $ \\
+\hline
+\cellcolor{gray!25}$c^1$ & $d^0$ & $i^0$ & $g^1$ & $s^1$ & $\phi_1(c^1)\phi_2(c^1,d^0)\phi_3(i^0)\phi_4(g^1,i^0,d^0)\phi_5(s^1,i^0) $ \\
+\hline
+\cellcolor{gray!25}$c^1$ & $d^0$ & $i^1$ & $g^0$ & $s^0$ & $\phi_1(c^1)\phi_2(c^1,d^0)\phi_3(i^1)\phi_4(g^0,i^1,d^0)\phi_5(s^0,i^1) $ \\
+\hline
+\cellcolor{gray!25}$c^1$ & $d^0$ & $i^1$ & $g^0$ & $s^1$ & $\phi_1(c^1)\phi_2(c^1,d^0)\phi_3(i^1)\phi_4(g^0,i^1,d^0)\phi_5(s^1,i^1) $ \\
+\hline
+\cellcolor{gray!25}$c^1$ & $d^0$ & $i^1$ & $g^1$ & $s^0$ & $\phi_1(c^1)\phi_2(c^1,d^0)\phi_3(i^1)\phi_4(g^1,i^1,d^0)\phi_5(s^0,i^1) $ \\
+\hline
+\cellcolor{gray!25}$c^1$ & $d^0$ & $i^1$ & $g^1$ & $s^1$ & $\phi_1(c^1)\phi_2(c^1,d^0)\phi_3(i^1)\phi_4(g^1,i^1,d^0)\phi_5(s^1,i^1) $ \\
+\hline
+\cellcolor{gray!25}$c^1$ & $d^1$ & $i^0$ & $g^0$ & $s^0$ & $\phi_1(c^1)\phi_2(c^1,d^1)\phi_3(i^0)\phi_4(g^0,i^0,d^1)\phi_5(s^0,i^0) $ \\
+\hline
+\cellcolor{gray!25}$c^1$ & $d^1$ & $i^0$ & $g^0$ & $s^1$ & $\phi_1(c^1)\phi_2(c^1,d^1)\phi_3(i^0)\phi_4(g^0,i^0,d^1)\phi_5(s^1,i^0) $ \\
+\hline
+\cellcolor{gray!25}$c^1$ & $d^1$ & $i^0$ & $g^1$ & $s^0$ & $\phi_1(c^1)\phi_2(c^1,d^1)\phi_3(i^0)\phi_4(g^1,i^0,d^1)\phi_5(s^0,i^0) $ \\
+\hline
+\cellcolor{gray!25}$c^1$ & $d^1$ & $i^0$ & $g^1$ & $s^1$ & $\phi_1(c^1)\phi_2(c^1,d^1)\phi_3(i^0)\phi_4(g^1,i^0,d^1)\phi_5(s^1,i^0) $ \\
+\hline
+\cellcolor{gray!25}$c^1$ & $d^1$ & $i^1$ & $g^0$ & $s^0$ & $\phi_1(c^1)\phi_2(c^1,d^1)\phi_3(i^1)\phi_4(g^0,i^1,d^1)\phi_5(s^0,i^1) $ \\
+\hline
+\cellcolor{gray!25}$c^1$ & $d^1$ & $i^1$ & $g^0$ & $s^1$ & $\phi_1(c^1)\phi_2(c^1,d^1)\phi_3(i^1)\phi_4(g^0,i^1,d^1)\phi_5(s^1,i^1) $ \\
+\hline
+\cellcolor{gray!25}$c^1$ & $d^1$ & $i^1$ & $g^1$ & $s^0$ & $\phi_1(c^1)\phi_2(c^1,d^1)\phi_3(i^1)\phi_4(g^1,i^1,d^1)\phi_5(s^0,i^1) $ \\
+\hline
+\cellcolor{gray!25}$c^1$ & $d^1$ & $i^1$ & $g^1$ & $s^1$ & $\phi_1(c^1)\phi_2(c^1,d^1)\phi_3(i^1)\phi_4(g^1,i^1,d^1)\phi_5(s^1,i^1) $ \\
+\hline
+\end{tabular}
+
+\end{document}
